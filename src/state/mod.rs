@@ -1,2 +1,4 @@
-mod event;
-pub mod types;
+pub mod event;
+mod types;
+
+pub use types::*;
