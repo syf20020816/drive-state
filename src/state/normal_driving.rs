@@ -1,6 +1,8 @@
 use crate::{LifeTime, State, LifeTimeContainer};
 use crate::error::TranslationError;
 
+/// # NormalDriving
+/// 正常驾驶状态所对应的具体
 pub struct NormalDriving {
     lifetime: LifeTimeContainer,
 }
@@ -35,11 +37,11 @@ impl LifeTime for NormalDriving {
         self.lifetime.run_on();
     }
 
-    fn transfer<T>(self, to: &mut T) -> Result<Box<&mut T>, TranslationError> where T: LifeTime {
+    fn transfer<T>(self, to: &mut T) -> Box<&mut T> where T: LifeTime {
         // to call_before()
         to.call_before();
         drop(self);
-        Ok(Box::new(to))
+        Box::new(to)
     }
 
     fn destroy<F>(&mut self, f: F) where F: FnOnce() + 'static {

@@ -1,4 +1,7 @@
-mod condition;
+mod entity;
+pub mod event;
+pub mod action;
+
 
 pub use condition::*;
 
@@ -6,13 +9,17 @@ use std::mem;
 use crate::state::State;
 use crate::error::TranslationError;
 
+/// # LifeTimeContainer
 /// 存储生命周期的容器，每个状态都需要依赖它
-// #[derive(Debug)]
+/// 它会存储before,on,destroy生命周期的闭包，调用run_lifetime_name时激活调用
+/// 这是一种延迟调用的典型方式，它存在于每一种状态中
+/// 也许多数情况下使用者无需设置生命周期容器
 pub struct LifeTimeContainer {
     before: Option<Box<dyn FnOnce()>>,
     on: Option<Box<dyn FnOnce()>>,
     destroy: Option<Box<dyn FnOnce()>>,
 }
+
 
 impl Default for LifeTimeContainer {
     fn default() -> Self {
@@ -39,7 +46,7 @@ impl LifeTimeContainer {
     }
     pub fn run_before(&mut self) -> () {
         if self.before.is_some() {
-            let mut  empty_closure: Box<dyn FnOnce()> = Box::new(|| {});
+            let mut empty_closure: Box<dyn FnOnce()> = Box::new(|| {});
             // swap closure
             let _ = mem::swap(self.before.as_mut().unwrap(), &mut empty_closure);
             empty_closure();
@@ -47,7 +54,7 @@ impl LifeTimeContainer {
     }
     pub fn run_on(&mut self) -> () {
         if self.on.is_some() {
-            let mut  empty_closure: Box<dyn FnOnce()> = Box::new(|| {});
+            let mut empty_closure: Box<dyn FnOnce()> = Box::new(|| {});
             let _ = mem::swap(self.on.as_mut().unwrap(), &mut empty_closure);
             empty_closure();
         }
@@ -77,7 +84,8 @@ pub trait LifeTime {
     /// 状态转移，从一种状态转移到另一种状态
     /// 当发生状态转移时会自动调用上一个状态的销毁和下一个状态的预进入
     /// 同时他会消费掉自己
-    fn transfer<T>(self, to: &mut T) -> Result<Box<&mut T>, TranslationError> where T: LifeTime;
+    /// 实际上它并不会出现TranslationError
+    fn transfer<T>(self, to: &mut T) -> Box<&mut T> where T: LifeTime;
     /// 跳出当前状态，当前状态被销毁
     fn destroy<F>(&mut self, f: F) where F: FnOnce() + 'static;
     fn call_destroy(&mut self);

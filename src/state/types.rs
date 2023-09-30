@@ -1,5 +1,5 @@
 use crate::LifeTime;
-use crate::state::event::NormalDriving;
+use crate::NormalDriving;
 
 /// # Car Accident State
 /// the state of the car accudent
