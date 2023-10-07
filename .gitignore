@@ -1,3 +1,4 @@
 *.mp4
 *.png
 /*/target/*
+/*/node_modules/*
