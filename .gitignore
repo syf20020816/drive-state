@@ -2,3 +2,4 @@
 *.png
 /*/target/*
 /*/node_modules/*
+*.avi
