@@ -1,10 +1,10 @@
-use crate::LifeTime;
-use crate::NormalDriving;
+// use crate::LifeTime;
+// use crate::NormalDriving;
 
 /// # Car Accident State
 /// the state of the car accudent
 /// ## example
-/// ```rust
+/// ```code
 /// use drive_state::types::State;
 /// let state = State::default();
 /// assert_eq!(state, State::new(0));

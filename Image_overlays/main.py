@@ -1,20 +1,15 @@
+# 视频切分脚本
 import logging
-from ultralytics import YOLO
-from PIL import Image
 import cv2
 import os
 
 # 1.加载videos
 # 2.使用opencv对视频进行每20帧切割为一张图片
-# 3.加载所有图片
-# 4.使用YOLO进行标注
-# 5.得到标注结果（标注图和标注坐标信息）
+
 
 # error code
 video_open_error = 101
 
-# 加载pt-------------------------------------------------------------------------
-model = YOLO('yolov8n.pt')
 
 # 加载视频-------------------------------------------------------------------------
 base_dir = "E:\\Rust\\try\\auto_drive_all\\datas\\"
@@ -22,8 +17,7 @@ base_dir = "E:\\Rust\\try\\auto_drive_all\\datas\\"
 target_video_dir = base_dir + "videos"
 # 将视频切割为图片后的存储路径
 target_imgs_dir = base_dir + "imgs"
-# 将图片进行标注和坐标处理后的存储路径
-target_res_dir = base_dir + "res"
+
 
 # cv读取视频进行切割-----------------------------------------------------------------
 # 遍历目录下所有的视频文件
@@ -63,17 +57,3 @@ for video in video_list:
         frame_num += 1
 
     target_video.release()
-
-
-# # 加载图片
-# img = "E:\\drive_data\\plb_test\\1.png"
-#
-# result = model(img)
-#
-# for r in result:
-#     im_array = r.plot()  # plot a BGR numpy array of predictions
-#     im = Image.fromarray(im_array[..., ::-1])  # RGB PIL image
-#     im.save('E:\\drive_data\\plb_test\\1_draw.png')  # save image
-#     file = open("E:\\drive_data\\plb_test\\1.txt", 'w')
-#     file.write(str(r.boxes))
-#     file.close()

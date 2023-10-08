@@ -1,0 +1,12 @@
+E:\Rust\try\auto_drive_all\drive-state\tests\target\debug\deps\slotmap-8824ed77fa981ef6.rmeta: E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\lib.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\basic.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\dense.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\hop.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\secondary.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\sparse_secondary.rs
+
+E:\Rust\try\auto_drive_all\drive-state\tests\target\debug\deps\libslotmap-8824ed77fa981ef6.rlib: E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\lib.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\basic.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\dense.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\hop.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\secondary.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\sparse_secondary.rs
+
+E:\Rust\try\auto_drive_all\drive-state\tests\target\debug\deps\slotmap-8824ed77fa981ef6.d: E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\lib.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\basic.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\dense.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\hop.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\secondary.rs E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\sparse_secondary.rs
+
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\lib.rs:
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\basic.rs:
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\dense.rs:
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\hop.rs:
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\secondary.rs:
+E:\.cargo\registry\src\mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b\slotmap-1.0.6\src\sparse_secondary.rs:
