@@ -4,3 +4,7 @@
 /*/node_modules/*
 *.avi
 /datas/videos/*
+**/target/
+**/*.avi
+**/*.png
+**/*.mp4
