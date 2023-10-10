@@ -103,6 +103,8 @@ name = "drive-state"
 version = "0.1.0"
 dependencies = [
  "except-plugin",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

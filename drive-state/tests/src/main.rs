@@ -12,10 +12,13 @@
 //! ```
 
 use std::path::{Path, PathBuf};
-use std::fs::{read_dir, read_to_string, create_dir};
+use std::fs::{read_dir, read_to_string, create_dir, write, remove_dir_all};
 use std::ops::Deref;
 use std::str::FromStr;
 use serde::{Serialize, Deserialize};
+use image::{open};
+use image::io::Reader;
+use drive_state::LowerState;
 
 
 // 设置全局常量
@@ -25,7 +28,7 @@ const IMG_DIR: &str = "E:\\Rust\\try\\auto_drive_all\\datas\\imgs";
 const RES_DIR: &str = "E:\\Rust\\try\\auto_drive_all\\datas\\reoverlays";
 const SPLIT_CHAR: &str = "\\";
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 struct OriginDatas {
     cls: Vec<u8>,
     pos: Vec<Vec<f32>>,
@@ -33,8 +36,10 @@ struct OriginDatas {
 
 impl From<String> for OriginDatas {
     fn from(value: String) -> Self {
-        let res: OriginDatas = serde_json::from_str(&value).unwrap();
-        res
+        match serde_json::from_str(&value) {
+            Ok(value) => value,
+            Err(_) => OriginDatas::default()
+        }
     }
 }
 
@@ -90,28 +95,57 @@ fn main() {
     for f_dir_str in f_source_dirs {
         //向下级继续遍历
         let f_dir_path = format!("{}{}{}", DATA_DIR, SPLIT_CHAR, &f_dir_str);
-        let origin_img_path = format!("{}{}{}", IMG_DIR, SPLIT_CHAR, &f_dir_str);
+        // let origin_img_path = format!("{}{}{}", IMG_DIR, SPLIT_CHAR, &f_dir_str);
         let source_files = get_data(&f_dir_path);
         let loop_num = source_files.len() / 2_usize;
+        //构建重标数据目录
+        let res_path_str = format!("{}{}{}.json", RES_DIR, SPLIT_CHAR, &f_dir_str);
+        // let res_path_str = format!("{}{}{}", RES_DIR, SPLIT_CHAR, &f_dir_str);
+        // let res_path = Path::new(&res_path_str);
+        // if res_path.exists() {
+        //     let _ = remove_dir_all(res_path);
+        // } else {
+        //     create_dir(res_path);
+        // }
+        let mut data_list = Vec::new();
         for i in 0..loop_num {
             let origin_counter = ADDING * i;
-            let origin_filepath = (format!("{}{}{}.txt", f_dir_path, SPLIT_CHAR, origin_counter), format!("{}{}{}.png", origin_img_path, SPLIT_CHAR, origin_counter));
+            let origin_filepath = (format!("{}{}{}.txt", f_dir_path, SPLIT_CHAR, origin_counter), format!("{}{}{}.png", f_dir_path, SPLIT_CHAR, origin_counter));
             // 读取txt中的数据通过serde解析为结构体
             let source_data_str = read_to_string(PathBuf::from_str(&origin_filepath.0).unwrap().as_path()).unwrap();
             let source_data = OriginDatas::from(source_data_str);
             let item_list = source_data.get_items();
+            // 获取图片分辨率
+            let target_img = Reader::open(Path::new(origin_filepath.1.as_str())).unwrap().decode().unwrap();
+            // 分辨率
+            let img_h = target_img.height() as f32;
+            let img_w = target_img.width() as f32;
             for item in item_list {
-                dbg!(item.cls());
-                dbg!(item.pos());
+                let mut tmp_list = Vec::new();
+                let cls = item.cls();
                 let pos = item.pos();
                 let h = pos[0] - pos[2];
                 let w = pos[1] - pos[3];
-                //
-
-
+                //通过三角可视区域过滤，通过比值进行判断
+                // area_x_left = img_w*(img_h - pos[3]) / img_h
+                // area_x_right = img_w - area_x_left
+                // area_x_range = [ area_x_left , area_x_right ]
+                let area_x_left = img_w * (img_h - pos[3]) / img_h;
+                let area_x_right = img_w - area_x_left;
+                if pos[0] >= area_x_left && pos[0] <= area_x_right {
+                    let state = LowerState::new(img_h, img_w, pos, i as u32, cls as u32);
+                    let _ = tmp_list.push(state);
+                }else{
+                    let _ = tmp_list.push(LowerState::default(
+                        i as u32, cls as u32
+                    ));
+                }
+                data_list.push(tmp_list);
             }
 
-
         }
+        let res_file_path = Path::new(&res_path_str);
+        // 写入数据
+        write(res_file_path, serde_json::to_string(&data_list).unwrap());
     }
 }

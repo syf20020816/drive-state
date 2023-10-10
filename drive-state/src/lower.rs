@@ -1,5 +1,7 @@
 use std::fmt::{Display, Formatter};
 use std::f32::consts::PI;
+use serde::{Serialize, Deserialize};
+
 
 // 状态间隔
 const SPACING: f32 = 1.667_f32;
@@ -12,10 +14,11 @@ const CAR_H_LOWEST: f32 = 0.12;
 const CAR_H_AVG: f32 = 0.135;
 const CAR_H_HIGHEST: f32 = 0.15;
 
+#[derive(Serialize, Deserialize)]
 pub struct LowerState {
     id: u32,
     status: LowerStatus,
-    action: Action,
+    action: Option<Action>,
     time: f32,
     //被标注物
     sign: Kind,
@@ -26,11 +29,11 @@ impl LowerState {
     /// space_time : 间隔次数（决定是第几个状态）
     /// pos:标注物坐标点
     /// kind:识别类型
-    pub fn new(resolution_rate_h: f32, resolution_rate_w: f32, pos: Vec<f32>, space_time: u32, kind: u32) {
+    pub fn new(resolution_rate_h: f32, resolution_rate_w: f32, pos: Vec<f32>, space_time: u32, kind: u32) ->Self{
         // let effective_h = (pos[3] - pos[0]) / 2.0;
         let distance = inner_deal(resolution_rate_h, resolution_rate_w, pos);
 
-        let sign = Kind::from_i32(kind);
+        let sign = Kind::from_i32(kind as i32);
         let action = Action::from(sign.clone());
         let mut status = LowerStatus::Normal;
         if distance < 0.5 {
@@ -40,12 +43,29 @@ impl LowerState {
         LowerState {
             id: space_time,
             status,
-            action,
+            action:Some(action),
+            time: SPACING * space_time as f32,
+            sign,
+        }
+    }
+    pub fn default(space_time: u32, kind: u32)->Self{
+        let sign = Kind::from_i32(kind as i32);
+        LowerState {
+            id: space_time,
+            status:LowerStatus::Normal,
+            action:None,
             time: SPACING * space_time as f32,
             sign,
         }
     }
 }
+
+impl Display for LowerState{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f,"{}",serde_json::to_string(self).unwrap())
+    }
+}
+
 
 /// 状态计算
 /// resolution_rate : 图片分辨率(行车记录仪分辨率)
@@ -70,7 +90,7 @@ fn inner_deal(resolution_rate_h: f32, resolution_rate_w: f32, pos: Vec<f32>) -> 
     dis - effective_dis_avg
 }
 
-#[derive(Clone)]
+#[derive(Clone,Serialize, Deserialize)]
 pub enum LowerStatus {
     Normal,
     Collision,
@@ -88,7 +108,7 @@ impl From<Action> for LowerStatus {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone,Serialize, Deserialize)]
 pub enum Action {
     DiscoverPerson,
     DiscoverCar,
@@ -112,11 +132,11 @@ impl Display for Action {
             Action::DiscoverCar => "discover car".to_string(),
             Action::Other(s) => format!("discover {}", s),
         };
-        write!(f, action)
+        write!(f,"{}", action)
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone,Serialize, Deserialize)]
 pub enum Kind {
     Person = 0,
     Bicycle = 1,
@@ -155,6 +175,6 @@ impl Display for Kind {
             Kind::Truck => "truck".to_string(),
             Kind::Other => "other".to_string()
         };
-        write!(f, kind)
+        write!(f,"{}", kind)
     }
 }
