@@ -1,10 +1,11 @@
 *.mp4
-*.png
 /*/target/*
 /*/node_modules/*
 *.avi
+/datas/imgs/*
+/datas/res/*
 /datas/videos/*
 **/target/
 **/*.avi
-**/*.png
 **/*.mp4
+**/node_modules/*

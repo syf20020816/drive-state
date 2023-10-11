@@ -120,8 +120,8 @@ fn main() {
             // 分辨率
             let img_h = target_img.height() as f32;
             let img_w = target_img.width() as f32;
+            let mut tmp_list = Vec::new();
             for item in item_list {
-                let mut tmp_list = Vec::new();
                 let cls = item.cls();
                 let pos = item.pos();
                 let h = pos[0] - pos[2];
@@ -140,8 +140,9 @@ fn main() {
                         i as u32, cls as u32
                     ));
                 }
-                data_list.push(tmp_list);
+
             }
+            data_list.push(tmp_list);
 
         }
         let res_file_path = Path::new(&res_path_str);
