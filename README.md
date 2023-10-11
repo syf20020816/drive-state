@@ -21,8 +21,8 @@
 
 ## 处理路线
 
-![image-20231011160101202](E:\Rust\try\auto_drive_all\README\imgs\image-20231011160101202.png)
+<img src="https://github.com/syf20020816/drive-state/blob/main/README/imgs/image-20231011160101202.png" />
 
 ### 效果
 
-![image-20231011155501916](E:\Rust\try\auto_drive_all\README\imgs\image-20231011155501916.png)
+<img src="https://github.com/syf20020816/drive-state/blob/main/README/imgs/image-20231011155501916.png" />
